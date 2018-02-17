@@ -1,63 +1,18 @@
-// enum store variants
-#[derive(Debug)]
-enum IpAddrKind {
-    V4,
-    V6,
-}
-
-// enum can store variants of different type
-#[derive(Debug)]
-enum Message {
-    Quit,
-    Write(String),
-    Move {x: i32, y: i32},
-    ChangeColor(String)
-}
-
-// enum can have methods
-impl Message {
-    fn call(&self) {
-        
-    }
-}
-
-// enum inside a struct
-struct IpAddr {
-    kind: IpAddrKind,
-    addr: String,
-}
-
 fn main() {
-    // Get instance of enum
-    // "V4" & "V6" variants are namespaced under enum
-    // "ipv4" & "ipv6" are both type IpAddrKind
-    let ipv4 = IpAddrKind::V4;
-    let ipv6 = IpAddrKind::V6;
+    // Compiler infer type from "Some" because value is present
+    let some_number = Some(1);
+    let some_string = Some("string");
 
-    // Pass enum to function
-    route(&ipv4);
-    route(&ipv6);
+    // Compiler can't infer type because value is absent
+    let absent_number: Option<i32> = None;
 
-    let localhost_v4 = IpAddr {
-        kind: ipv4,
-        addr: String::from("127.0.0.1"),
-    };
+    let a: i8 = 5;
+    let b: Option<i8> = Some(5);
 
-    let localhost_v6 = IpAddr {
-        kind: ipv6,
-        addr: String::from("::1"),
-    };
+    //let c = a + b; // Compile error
+                    // Compiler ensures we have "value" before using it elsewhere
+                    // Need to convert Option<T> to <T> before using <T> elsewhere
 
-    println!("{:?}",localhost_v6.kind);
-
-    // Store data directly inside enum
-    // rather than using struct to give it a meaning
-    let change_color = Message::ChangeColor(String::from("red"));
-
-    println!("change_color is {:?}", change_color);
-}
-
-// Functions accepting enum as argument
-fn route(ipaddr: &IpAddrKind) {
-
+    // When we use something that isn't Option<T>, we can be confident value isn't null
+    // When we use Option<T>, compiler forces us to handle case of value being null
 }
