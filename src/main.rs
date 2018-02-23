@@ -1,42 +1,28 @@
-#[derive(Debug)]
-enum UsState {
-    Alaska,
-    Alabama,
-    Michigan,
-    Arizona,
-}
-
-enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter(UsState),
-}
-
 fn main() {
-    value_in_coins(Coin::Penny);
-    value_in_coins(Coin::Quarter(UsState::Arizona));
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+
+    println!("six is {:?}, none is {:?}", six, none);
+
+    let value: u8 = 3u8;
+
+    match value {
+        1 => println!("one"),
+        3 => println!("three"),
+        5 => println!("five"),
+        7 => println!("seven"),
+        // "_" is like the default block
+        _ => println!("default"),
+    }
 }
 
-fn value_in_coins(coin: Coin) -> u32 {
-    // "match" - keyword
-    // "coin" - expression (can return any value)
-    // "{ sts }" - arm => LHS - pattern, RHS - expression
-    // patterns searched in order and stop at matching one
-    match coin {
-        Coin::Penny => {
-            println!("Lucy Penny!");
-            1
-        },
-        Coin::Nickel => 5,
-        Coin::Dime => 10,
-        // Arms can bind to value of matching pattern
-        // When a quarter matches, the value it holds is
-        // bound to "state"
-        // This way we can extract value from enum
-        Coin::Quarter(state) => {
-            println!("Quarter is from the state of {:?}", state);
-            25
-        },
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    // patterns are exhaustive
+    // all possible patterns should be provided or else
+    // Rust throws an error
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
     }
 }
