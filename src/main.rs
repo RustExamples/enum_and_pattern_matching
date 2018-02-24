@@ -1,28 +1,63 @@
-fn main() {
-    let five = Some(5);
-    let six = plus_one(five);
-    let none = plus_one(None);
-
-    println!("six is {:?}, none is {:?}", six, none);
-
-    let value: u8 = 3u8;
-
-    match value {
-        1 => println!("one"),
-        3 => println!("three"),
-        5 => println!("five"),
-        7 => println!("seven"),
-        // "_" is like the default block
-        _ => println!("default"),
-    }
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+    Arizona,
 }
 
-fn plus_one(x: Option<i32>) -> Option<i32> {
-    // patterns are exhaustive
-    // all possible patterns should be provided or else
-    // Rust throws an error
-    match x {
-        None => None,
-        Some(i) => Some(i + 1),
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState)
+}
+
+fn using_match(){
+    let value: Option<u8> = Some(5);
+    let mut count = 0;
+    let coin = Coin::Quarter(UsState::Arizona);
+
+    println!("Using `match`:");
+
+    match value {
+        Some(3) => println!("true"),
+        _ => println!("false")
     }
+
+    match coin {
+        Coin::Quarter(state) => println!("quarter belongs to state {:?}", state),
+        _ => count += 1
+    }
+
+    println!("coins that aren't quarter is {}", count);
+}
+
+fn using_if_let() {
+    let value: Option<u8> = Some(5);
+    let mut count = 0;
+    let coin = Coin::Penny;
+
+    println!("Using `if let`:");
+
+    if let Some(5) = value {
+        println!("true");
+    }
+    else{
+        println!("false");
+    }
+
+    if let Coin::Quarter(state) = coin {
+        println!("quarter belongs to state {:?}", state);
+    }
+    else {
+        count += 1;
+    }
+
+    println!("coins that aren't quarter is {}", count);
+}
+
+fn main() {
+    using_match();
+
+    using_if_let();
 }
